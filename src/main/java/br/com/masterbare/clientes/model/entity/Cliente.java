@@ -1,14 +1,15 @@
 package br.com.masterbare.clientes.model.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Data // -> Cria os getters e setters, equals, hashCode e toString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // deixa a cargo do banco criar o autoincremento
@@ -22,5 +23,10 @@ public class Cliente {
 
     @Column(name = "data_cadastro")
     private LocalDate dataCadastro;
+
+    @PrePersist
+    public void perPersist(){
+        setDataCadastro(LocalDate.now());
+    }
 
 }
